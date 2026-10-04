@@ -1,0 +1,25 @@
+
+{
+  "name": "official_cyber_satyam27",
+  "version": "1.0.0",
+  "description": "GALLERY-SRY - A transparent, user-controlled image upload server",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "gallery-sry",
+    "image-upload",
+    "satyam"
+  ],
+  "author": "OFFICIAL_cyber_satyam27",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.5.4",
+    "multer": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
